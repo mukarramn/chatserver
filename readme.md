@@ -15,6 +15,3 @@ Messages from each client are broadcoast to all clients.
 
 To logout from a client please type logout in client input window.
 
-# chatserver
-# chatserver
-# chatserver
