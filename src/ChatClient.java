@@ -27,7 +27,7 @@ public class ChatClient  implements Runnable {
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                if (responseLine.indexOf("logout") != -1)
+                if (responseLine.indexOf("over logout") != -1)
                     break;
             }
             isShutDown = true;
@@ -77,7 +77,7 @@ public class ChatClient  implements Runnable {
                 /* Create a thread to read from the server. */
                 new Thread(new ChatClient()).start();
 
-               while (!isShutDown) {
+                while (!isShutDown) {
                     os.println(inputLine.readLine().trim());
                 }
 
@@ -90,5 +90,4 @@ public class ChatClient  implements Runnable {
             }
         }
     }
-
 }

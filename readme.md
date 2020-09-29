@@ -13,5 +13,5 @@ java ChatClient
 
 Messages from each client are broadcoast to all clients.
 
-To logout from a client please type logout in client input window.
+To logout from a client please type logout on a new line in client input window.
 

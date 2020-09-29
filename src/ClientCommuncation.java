@@ -7,7 +7,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 /*
- This call is Socket Server helper Class. It encapsulates the client functionality on the Server Side.
+ This call is Socket Server helper Class.
+ It encapsulates the client functionality on the Server Side.
 
  */
 class ClientCommunication extends Thread {
@@ -33,17 +34,16 @@ class ClientCommunication extends Thread {
         ClientCommunication[] threads = this.clientThreads;
 
         try {
-            //Create input  stream for this client.
+            // input stream for this client.
             is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            //  Create output streams for this client.
+            // output streams for this client.
             os = new PrintStream(clientSocket.getOutputStream());
             String clientName;
                 os.println("Welcome to Chat Server. Please enter Enter your name.");
                 clientName = is.readLine().trim();
 
-            os.println("Welcome " + clientName
-                    + " to our chat room.\nTo leave enter /quit in a new line.");
+            os.println("Welcome " + clientName + " to  chat room. To leave enter logout on a new line.");
             synchronized (this) {
                 for (int i = 0; i < maxClientsCount; i++) {
                     if (threads[i] != null && threads[i] == this) {
@@ -53,18 +53,19 @@ class ClientCommunication extends Thread {
                 }
                 for (int i = 0; i < maxClientsCount; i++) {
                     if (threads[i] != null && threads[i] != this) {
-                        threads[i].os.println("*** A new user " + clientName + " entered the chat room !!! ***");
+                        threads[i].os.println("Welcoming  new user " + clientName + " to the chat room");
                     }
                 }
             }
-            /* Start the chatting. */
+            /* Start  chatting. */
             while (true) {
                 String line = is.readLine();
-                if (line.startsWith("/quit")) {
+                // Check if client wants to logout
+                if (line.startsWith("logout")) {
                     break;
                 }
                  else {
-                    /* Message sent to all client */
+                    /* Broadcast message to all clients */
                     synchronized (this) {
                         for (int i = 0; i < maxClientsCount; i++) {
                             if (threads[i] != null && threads[i].currentClientName != null) {
@@ -83,11 +84,11 @@ class ClientCommunication extends Thread {
                     }
                 }
             }
-            os.println("logout" + clientName + " has Exited");
+            os.println("over logout" + clientName + " has Exited");
 
             /*
-             * Clean up. Set the current thread variable to null so that a new client
-             * could be accepted by the server.
+             * The client is existing. clean up threads[i] == this so it
+             * can be used by new client.
              */
             synchronized (this) {
                 for (int i = 0; i < maxClientsCount; i++) {
